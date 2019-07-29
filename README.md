@@ -28,16 +28,19 @@ Along with the HikariCP library, Slf4j libraries will also be copied, as the dat
 
 New properties have to be defined in order to use the new datasource:
 
+  ```properties
     db.pool.name=sapCommerceDataSource
     db.pool.fromJNDI=java:comp/env/jdbc/${db.pool.name}
-    
-    # TODO: select the correct database type below
-    db.pool.fromJNDI.dbtype=hsqldb|mysql|sqlserver|sap
-    
-    # TODO: select the correct datasource type below
-    db.pool.dataSourceClassName=org.hsqldb.jdbc.JDBCDataSource|com.mysql.jdbc.jdbc2.optional.MysqlDataSource|com.microsoft.sqlserver.jdbc.SQLServerDataSource
+  ```
 
 Different properties must be added, depending on the database you are using:
+
+  * HSQLDB:
+  
+  ```properties
+    db.pool.fromJNDI.dbtype=hsqldb
+    db.pool.dataSourceClassName=org.hsqldb.jdbc.JDBCDataSource
+  ```
 
   * Oracle:
   
@@ -47,6 +50,27 @@ Different properties must be added, depending on the database you are using:
   
     # Make sure your DB URL is complete and has a syntax similar to below
     db.url=jdbc:oracle:thin:@127.0.0.1:1521:xe
+  ```
+
+  * MySQL:
+  
+  ```properties
+    db.pool.fromJNDI.dbtype=mysql
+    db.pool.dataSourceClassName=com.mysql.jdbc.jdbc2.optional.MysqlDataSource
+  ```
+
+  * SQL Server:
+  
+  ```properties
+    db.pool.fromJNDI.dbtype=sqlserver
+    db.pool.dataSourceClassName=com.microsoft.sqlserver.jdbc.SQLServerDataSource
+  ```
+
+  * SAP HANA:
+  
+  ```properties
+    db.pool.fromJNDI.dbtype=sap
+    db.pool.dataSourceClassName=<DataSource class name for SAP HANA>
   ```
 
 ### Declare the datasource in the application server
