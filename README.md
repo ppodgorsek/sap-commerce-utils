@@ -10,11 +10,15 @@ The default Commerce datasource can be replaced by [HikariCP](https://github.com
 
 ### Installing the library
 
-The HikariCP library can be easily installed by running the following command from your `platform` folder:
+As the datasource will be defined directly in Tomcat, your database library must be added to the Tomcat libraries in `hybris/config/customize/platform/tomcat/lib`:
+
+  * Oracle: `ojdbc6-w.x.y.z.jar`
+
+The HikariCP library can then be easily installed by running the following command from your `platform` folder:
 
     ant customize
 
-Along with the HikariCP library, Slf4j libraries also need to be copied, as the datasource relies on them. They are however not used by Tomcat and simply pass on any log messages to the existing logger.
+Along with the HikariCP library, Slf4j libraries will also be copied, as the datasource relies on them. They are however not used by Tomcat and simply pass on any log messages to the existing logger.
 
 ### local.properties
 
@@ -24,10 +28,22 @@ New properties have to be defined in order to use the new datasource:
     db.pool.fromJNDI=java:comp/env/jdbc/${db.pool.name}
     
     # TODO: select the correct database type below
-    db.pool.fromJNDI.dbtype=hsqldb|oracle|mysql|sqlserver|sap
+    db.pool.fromJNDI.dbtype=hsqldb|mysql|sqlserver|sap
     
     # TODO: select the correct datasource type below
-    db.pool.dataSourceClassName=org.hsqldb.jdbc.JDBCDataSource|oracle.jdbc.pool.OracleDataSource|com.mysql.jdbc.jdbc2.optional.MysqlDataSource|com.microsoft.sqlserver.jdbc.SQLServerDataSource
+    db.pool.dataSourceClassName=org.hsqldb.jdbc.JDBCDataSource|com.mysql.jdbc.jdbc2.optional.MysqlDataSource|com.microsoft.sqlserver.jdbc.SQLServerDataSource
+
+Different properties must be added, depending on the database you are using:
+
+  * Oracle:
+  
+  ```properties
+    db.pool.fromJNDI.dbtype=oracle
+    db.pool.dataSourceClassName=oracle.jdbc.pool.OracleDataSource
+  
+    # Make sure your DB URL is complete and has a syntax similar to below
+    db.url=jdbc:oracle:thin:@127.0.0.1:1521:xe
+  ```
 
 ### Declare the datasource in the application server
 
@@ -42,7 +58,8 @@ The steps below describe how to install the datasource in Tomcat but they are ve
   
   3. Declare the datasource resource in the `<GlobalNamingResources>` tag:
   
-  * **Oracle:**
+  * Oracle:
+  
       ```xml
       <Resource name="${db.pool.name}"
                 auth="Container"
