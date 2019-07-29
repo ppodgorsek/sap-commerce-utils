@@ -8,6 +8,14 @@ A set of extensions to improve SAP Commerce, formely known as SAP Hybris Commerc
 
 The default Commerce datasource can be replaced by [HikariCP](https://github.com/brettwooldridge/HikariCP), which is more performant.
 
+### Installing the library
+
+The HikariCP library can be easily installed by running the following command from your `platform` folder:
+
+    ant customize
+
+Along with the HikariCP library, Slf4j libraries also need to be copied, as the datasource relies on them. They are however not used by Tomcat and simply pass on any log messages to the existing logger.
+
 ### local.properties
 
 New properties have to be defined in order to use the new datasource:
@@ -29,12 +37,12 @@ The steps below describe how to install the datasource in Tomcat but they are ve
   2. Add a new listener just before the `<GlobalNamingResources>` tag:
   
       ```xml
-      <Listener className="de.hybris.tomcat.HybrisGlobalResourcesLifecycleListener"
-                dataSourceName="${db.pool.fromJNDI}" />
+      <Listener className="de.hybris.tomcat.HybrisGlobalResourcesLifecycleListener" />
       ```
   
   3. Declare the datasource resource in the `<GlobalNamingResources>` tag:
   
+  * **Oracle:**
       ```xml
       <Resource name="${db.pool.name}"
                 auth="Container"
@@ -47,7 +55,5 @@ The steps below describe how to install the datasource in Tomcat but they are ve
                 maximumPoolSize="${db.pool.maxActive}"
                 poolName="${db.pool.name}ConnectionPool"
                 dataSource.url="${db.url.XMLENCODED}"
-                dataSource.user="${db.username}"
-                dataSource.password="${db.password.XMLENCODED}"
       />
       ```
