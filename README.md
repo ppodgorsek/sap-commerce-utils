@@ -6,11 +6,11 @@ A set of extensions to improve SAP Commerce, formely known as SAP Hybris Commerc
 
 This project aims to improve the following features:
 
-  * Datasource connection
+  * Datasource connection using [HikariCP](https://github.com/brettwooldridge/HikariCP)
 
 ## HikariCP datasource
 
-The default Commerce datasource can be replaced by [HikariCP](https://github.com/brettwooldridge/HikariCP), which is more performant.
+The default Commerce datasource can be replaced by HikariCP, which is more performant.
 
 ### Installing the library
 
