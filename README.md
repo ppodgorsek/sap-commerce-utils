@@ -81,7 +81,8 @@ The steps below describe how to install the datasource in Tomcat but they are ve
   2. Add a new listener just before the `<GlobalNamingResources>` tag:
   
       ```xml
-      <Listener className="de.hybris.tomcat.HybrisGlobalResourcesLifecycleListener" />
+      <Listener className="de.hybris.tomcat.HybrisGlobalResourcesLifecycleListener"
+                dataSourceName="${db.pool.fromJNDI}" />
       ```
   
   3. Declare the datasource resource in the `<GlobalNamingResources>` tag:
