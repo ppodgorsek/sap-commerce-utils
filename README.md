@@ -17,6 +17,7 @@ The default Commerce datasource can be replaced by HikariCP, which is more perfo
 As the datasource will be defined directly in Tomcat, your database library must be added to the Tomcat libraries in `hybris/config/customize/platform/tomcat/lib`:
 
   * Oracle: `ojdbc6-w.x.y.z.jar`
+  * MySQL: `mysql-connector-java-x.y.z.jar`
 
 The HikariCP library can then be easily installed by running the following command from your `platform` folder:
 
