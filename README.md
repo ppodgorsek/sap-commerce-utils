@@ -31,7 +31,11 @@ New properties have to be defined in order to use the new datasource:
   ```properties
     db.pool.name=sapCommerceDataSource
     db.pool.fromJNDI=java:jdbc/${db.pool.name}
-    
+  ```
+
+These properties must however not be used for the JUnit tenant, as they will cause unexpected issues. To avoid this, add the following properties to `hybris/config/local_tenant_junit.properties`:
+
+  ```properties
     junit.db.pool.name=
     junit.db.pool.fromJNDI=
     junit.db.pool.fromJNDI.dbtype=
