@@ -31,6 +31,11 @@ New properties have to be defined in order to use the new datasource:
   ```properties
     db.pool.name=sapCommerceDataSource
     db.pool.fromJNDI=java:jdbc/${db.pool.name}
+    
+    junit.db.pool.name=
+    junit.db.pool.fromJNDI=
+    junit.db.pool.fromJNDI.dbtype=
+    junit.db.pool.dataSourceClassName=
   ```
 
 Different properties must be added, depending on the database you are using:
