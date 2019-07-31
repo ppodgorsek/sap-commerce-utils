@@ -30,7 +30,7 @@ New properties have to be defined in order to use the new datasource:
 
   ```properties
     db.pool.name=sapCommerceDataSource
-    db.pool.fromJNDI=java:comp/env/jdbc/${db.pool.name}
+    db.pool.fromJNDI=java:jdbc/${db.pool.name}
   ```
 
 Different properties must be added, depending on the database you are using:
@@ -77,20 +77,24 @@ Different properties must be added, depending on the database you are using:
 
 The steps below describe how to install the datasource in Tomcat but they are very similar for tcServer.
 
-  1. Open `hybris/config/tomcat/conf/server.xml`
-  2. Add a new listener just before the `<GlobalNamingResources>` tag:
+  1. Open `hybris/config/tomcat/conf/context.xml` (if this file does not exist, create it based on `hybris/bin/platform/tomcat/conf/context.xml`)
+  2. Declare the resource link for the Commerce application before the `<Context>` tag closes:
   
       ```xml
-      <Listener className="de.hybris.tomcat.HybrisGlobalResourcesLifecycleListener"
-                dataSourceName="${db.pool.fromJNDI}" />
+      <ResourceLink name="jdbc/${db.pool.name}"
+                global="jdbc/${db.pool.name}"
+                auth="Container"
+                type="javax.sql.DataSource" />
       ```
-  
-  3. Declare the datasource resource in the `<GlobalNamingResources>` tag:
+
+  3. Open `hybris/config/tomcat/conf/server.xml`
+  4. Declare the datasource resource in the `<GlobalNamingResources>` tag:
   
   * Oracle:
   
       ```xml
-      <Resource name="${db.pool.name}"
+      <Resource name="jdbc/${db.pool.name}"
+                global="jdbc/${db.pool.name}"
                 auth="Container"
                 type="javax.sql.DataSource"
                 factory="com.zaxxer.hikari.HikariJNDIFactory"
