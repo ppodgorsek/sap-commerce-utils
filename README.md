@@ -17,6 +17,7 @@ The default Commerce datasource can be replaced by HikariCP, which is more perfo
 As the datasource will be defined directly in Tomcat, your database library must be added to the Tomcat libraries in `hybris/config/customize/platform/tomcat/lib`:
 
   * Oracle: `ojdbc6-w.x.y.z.jar`
+  * MySQL: `mysql-connector-java-x.y.z.jar`
 
 The HikariCP library can then be easily installed by running the following command from your `platform` folder:
 
@@ -30,7 +31,16 @@ New properties have to be defined in order to use the new datasource:
 
   ```properties
     db.pool.name=sapCommerceDataSource
-    db.pool.fromJNDI=java:comp/env/jdbc/${db.pool.name}
+    db.pool.fromJNDI=java:jdbc/${db.pool.name}
+  ```
+
+These properties must however not be used for the JUnit tenant, as they will cause unexpected issues. To avoid this, add the following properties to `hybris/config/local_tenant_junit.properties`:
+
+  ```properties
+    db.pool.name=
+    db.pool.fromJNDI=
+    db.pool.fromJNDI.dbtype=
+    db.pool.dataSourceClassName=
   ```
 
 Different properties must be added, depending on the database you are using:
@@ -77,20 +87,24 @@ Different properties must be added, depending on the database you are using:
 
 The steps below describe how to install the datasource in Tomcat but they are very similar for tcServer.
 
-  1. Open `hybris/config/tomcat/conf/server.xml`
-  2. Add a new listener just before the `<GlobalNamingResources>` tag:
+  1. Open `hybris/config/tomcat/conf/context.xml` (if this file does not exist, create it based on `hybris/bin/platform/tomcat/conf/context.xml`)
+  2. Declare the resource link for the Commerce application before the `<Context>` tag closes:
   
       ```xml
-      <Listener className="de.hybris.tomcat.HybrisGlobalResourcesLifecycleListener"
-                dataSourceName="${db.pool.fromJNDI}" />
+      <ResourceLink name="jdbc/${db.pool.name}"
+                global="jdbc/${db.pool.name}"
+                auth="Container"
+                type="javax.sql.DataSource" />
       ```
-  
-  3. Declare the datasource resource in the `<GlobalNamingResources>` tag:
+
+  3. Open `hybris/config/tomcat/conf/server.xml`
+  4. Declare the datasource resource in the `<GlobalNamingResources>` tag:
   
   * Oracle:
   
       ```xml
-      <Resource name="${db.pool.name}"
+      <Resource name="jdbc/${db.pool.name}"
+                global="jdbc/${db.pool.name}"
                 auth="Container"
                 type="javax.sql.DataSource"
                 factory="com.zaxxer.hikari.HikariJNDIFactory"
