@@ -1,0 +1,15 @@
+/bin/
+/classes/
+/eclipsebin/
+/gensrc/
+/target/
+
+/.springBeans
+/build.xml
+/platformhome.properties
+
+*.build.number
+*.class
+*.xsd
+*-testclasses.xml
+*-webtestclasses.xml

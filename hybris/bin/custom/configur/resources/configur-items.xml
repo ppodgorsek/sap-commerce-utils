@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ [y] hybris Platform
+
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+
+ This software is the confidential and proprietary information of SAP
+ ("Confidential Information"). You shall not disclose such Confidential
+ Information and shall use it only in accordance with the terms of the
+ license agreement you entered into with SAP.
+ 
+-->
+<items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="items.xsd">
+
+	<!-- ############################################################### -->
+    <!--                                                                 -->
+    <!-- Please use typecodes in the range from 30000 to 30099         -->
+    <!--                                                                 -->
+    <!-- ############################################################### -->
+
+	<relations>
+		<relation localized="false" code="ConfigurProperty2ClusterNodeRelation">
+			<sourceElement qualifier="property" type="ConfigurProperty" cardinality="one">
+				<modifiers optional="false" />
+			</sourceElement>
+			<targetElement qualifier="clusterNodeVariations" type="ConfigurClusterNodeVariation" cardinality="many" collectiontype="list" ordered="true">
+				<modifiers optional="true" />
+			</targetElement>
+		</relation>
+		<relation localized="false" code="ConfigurCategory2Category">
+			<sourceElement qualifier="parentCategory" type="ConfigurCategory" cardinality="one">
+				<modifiers optional="false" />
+			</sourceElement>
+			<targetElement qualifier="childCategories" type="ConfigurCategory" cardinality="many" collectiontype="list" ordered="true"/>
+		</relation>
+		<relation localized="false" code="ConfigurProperty2Category">
+			<sourceElement qualifier="properties" type="ConfigurProperty" cardinality="many" collectiontype="list" ordered="true"/>
+			<targetElement qualifier="category" type="ConfigurCategory" cardinality="one" />
+		</relation>
+	</relations>
+
+	<itemtypes>
+		<typegroup name="configur">
+			<itemtype code="ConfigurCategory" jaloclass="com.github.ppodgorsek.configur.jalo.ConfigurCategory">
+				<deployment table="configur_category" typecode="30000" />
+				<attributes>
+					<attribute qualifier="key" type="java.lang.String">
+						<description>The category key.</description>
+						<modifiers optional="false" />
+						<persistence type="property" />
+					</attribute>
+					<attribute qualifier="name" type="localized:java.lang.String">
+						<description>The name of the category.</description>
+						<persistence type="property" />
+					</attribute>
+					<attribute qualifier="description" type="localized:java.lang.String">
+						<description>The description of the category.</description>
+						<persistence type="property" />
+					</attribute>
+				</attributes>
+			</itemtype>
+
+			<itemtype code="ConfigurProperty" jaloclass="com.github.ppodgorsek.configur.jalo.ConfigurProperty">
+				<deployment table="configur_property" typecode="30001" />
+				<attributes>
+					<attribute qualifier="key" type="java.lang.String">
+						<description>The property key.</description>
+						<modifiers optional="false" />
+						<persistence type="property" />
+					</attribute>
+					<attribute qualifier="name" type="localized:java.lang.String">
+						<description>The name of the property.</description>
+						<persistence type="property" />
+					</attribute>
+					<attribute qualifier="description" type="localized:java.lang.String">
+						<description>The description of the property.</description>
+						<persistence type="property" />
+					</attribute>
+					<attribute qualifier="value" type="java.lang.String">
+						<description>The property value.</description>
+						<persistence type="property" />
+					</attribute>
+				</attributes>
+			</itemtype>
+
+			<itemtype code="ConfigurClusterNodeVariation"
+				jaloclass="com.github.ppodgorsek.configur.jalo.ConfigurClusterNodeVariation">
+				<deployment table="configur_clusternode" typecode="30002" />
+				<attributes>
+					<attribute qualifier="nodeId" type="java.lang.String">
+						<description>The node ID to which the configuration applies.</description>
+						<modifiers optional="false" />
+						<persistence type="property" />
+					</attribute>
+					<attribute qualifier="value" type="java.lang.String">
+						<description>The configuration value for the node.</description>
+						<persistence type="property" />
+					</attribute>
+				</attributes>
+			</itemtype>
+		</typegroup>
+	</itemtypes>
+
+</items>
