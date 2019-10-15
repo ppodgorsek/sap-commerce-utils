@@ -6,7 +6,35 @@ A set of extensions to improve SAP Commerce, formely known as SAP Hybris Commerc
 
 This project aims to improve the following features:
 
+  * Persistent configuration using [ConfiguR](https://github.com/ppodgorsek/configur)
   * Datasource connection using [HikariCP](https://github.com/brettwooldridge/HikariCP)
+
+## ConfiguR
+
+Maintaining server configuration in `local.properties` is not convenient, as changes are not automatically persisted and are lost after each restart.
+
+Instead of having to update the configuration file, ConfiguR allows to modify the configuration on-the-fly and all changes are persisted in the database.
+
+Furthermore, it is fully compatible with the OOTB `ConfigurationService` class and properties are first fetched from the database before being looked up in the standard locations.
+
+### Installing the extension
+
+Two extensions have to be copied into your project:
+
+  * hybris/bin/custom/configur
+  * hybris/bin/custom/configur-backoffice
+
+Remember to update your `localextensions.xml` too.
+
+### Item types
+
+New item types have been created:
+
+  * `ConfigurCategory`: a category regrouping properties, such as "Analytics",
+  * `ConfigurProperty`: a property having a key/value of course, but also a name and description for easy identification,
+  * `ConfigurClusterNodeVariation`: a node-specific value for a property, allowing to define different values per node of the cluster.
+
+The first two types can be found in the Backoffice under `System > Persistent Configuration`. The third type can be set via the configuration properties.
 
 ## HikariCP datasource
 
