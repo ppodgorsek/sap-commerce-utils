@@ -1,3 +1,6 @@
+> [!CAUTION]  
+> This repository is now archived, as I don't have access to the latest releases of SAP Commerce anymore.
+
 # SAP Commerce Utils
 
 A set of extensions to improve SAP Commerce, formely known as SAP Hybris Commerce.
